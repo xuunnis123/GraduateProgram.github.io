@@ -106,8 +106,11 @@ function setTimeRange(id, value)
 
 function setChoosedTime()
 {
-	choose.hour = $('#hourRange').val();
-	choose.minute = $('#minuteRange').val();
+	var today = new Date();
+	choose.hour =today.getHours();
+	choose.minute =today.getMinutes();
+	//choose.hour = $('#hourRange').val();
+	//choose.minute = $('#minuteRange').val();
 }
 
 function showList()
