@@ -111,6 +111,6 @@ function setChoosedTime()
 }
 
 function showList()
-	{$('#calendar caption').html($('#year').text() + choose.date + "日 " + prependZero(choose.hour) + ":" + prependZero(choose.minute));}
+	{$('#calendar caption').html($('#year').text() + choose.date + "日 " + choose.hour + ":" + choose.minute);}
 
 function prependZero(vari) {return (vari < 10) ? ("0" + vari) : vari;}
