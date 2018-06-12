@@ -2,7 +2,9 @@ var current =
 {
 	'year':  new Date().getFullYear(),
 	'month': new Date().getMonth() + 1,
-	'date':  new Date().getDate()
+	'date':  new Date().getDate(),
+	'hour': new Date().getHours(),
+	'minute':new Date().getMinutes()
 };
 
 var choose = 
@@ -10,8 +12,8 @@ var choose =
 	'year':  current.year,
 	'month': current.month,
 	'date':  current.date,
-	'hour':  0,
-	'minute':0
+	'hour':  current.hour,
+	'minute':current.minute
 };
 
 $(function()
@@ -107,8 +109,8 @@ function setTimeRange(id, value)
 function setChoosedTime()
 {
 	var today = new Date();
-	choose.hour =today.getHours();
-	choose.minute =today.getMinutes();
+	//choose.hour =today.getHours();
+	//choose.minute =today.getMinutes();
 	//choose.hour = $('#hourRange').val();
 	//choose.minute = $('#minuteRange').val();
 }
