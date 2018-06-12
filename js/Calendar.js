@@ -106,14 +106,7 @@ function setTimeRange(id, value)
 	showList();
 }
 
-function setChoosedTime()
-{
-	var today = new Date();
-	//choose.hour =today.getHours();
-	//choose.minute =today.getMinutes();
-	//choose.hour = $('#hourRange').val();
-	//choose.minute = $('#minuteRange').val();
-}
+
 
 function showList()
 	{$('#calendar caption').html($('#year').text() + choose.date + "日 " + choose.hour + ":" + choose.minute);}
