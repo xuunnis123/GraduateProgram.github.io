@@ -106,9 +106,17 @@ function setTimeRange(id, value)
 	showList();
 }
 
+function timecheck(time)
+{
+if(time<10){
+	time="0"+time
+	return time
+}
 
 
+
+}
 function showList()
-	{$('#calendar caption').html($('#year').text() + choose.date + "日 " + choose.hour + ":" + choose.minute);}
+	{$('#calendar caption').html($('#year').text() + choose.date + "日 " + timecheck(choose.hour) + ":" + timecheck(choose.minute);}
 
 function prependZero(vari) {return (vari < 10) ? ("0" + vari) : vari;}
