@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+      <!--  <title>Date &amp; </title> Date &amp;Time Picker -->  
+        <title>Activity Setting</title>
+        <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+        <link rel="stylesheet" href="css/Core.css">
+        <link rel="stylesheet" href="css/Calendar.css">
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/Calendar.js"></script>
+        <script type="text/javascript">
+            
+            function start(){
+
+
+            }
+            function msg(){
+
+                var activity=document.getElementById("activityName");
+                var settime=document.getElementById("timeset")
+                var locationsetting=document.getElementById("location")
+                var demoinput=document.getElementById("demo")
+                
+                    alert("已新增活動"+"\n"+"活動名稱："+activity.value+"\n"+"時間 "+settime.value+"\n"+"活動地點："+locationsetting.value+"\n"+"備註："+demoinput.value);
+
+            }
+        </script>>
+    </head>
+    <body>
+        <table id="calendar">
+            <caption></caption>
+            <thead>
+                <tr>
+                    <th id="lastMonth"></th>
+                    <th colspan="5" id="year"></th>
+                    <th id="nextMonth"></th>
+                </tr>
+                <tr id="week">
+                    <th>日</th>
+                    <th>一</th>
+                    <th>二</th>
+                    <th>三</th>
+                    <th>四</th>
+                    <th>五</th>
+                    <th>六</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                
+                <tr>
+                    <td colspan="7"><hr /></td>
+                </tr>
+                <tr>
+                    <td colspan="7">
+                    <label>行程</label>
+                    <input type="textbox" id="activityName" />
+                    </td>
+                </tr><tr>
+                    <td colspan="7">
+                        <label for="hour">時間</label>
+                        <input type="time" id="timeset" />
+                        <!--<input type="range" id="hourRange" min="0" max="23" value="0"/>-->
+                        <!--<input type="textbox" id="hourSet" min="0" max="23" value="0"/ >-->
+                    
+                       
+                       <!-- <input type="range" id="minuteRange" min="0" max="59" value="0"/> -->
+                        <!-- <input type="textbox" id="minuteSet" min="0" max="59" value="0"/ >-->
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7">
+                        <label>地點</label>
+                        <input type="textbox" id="location"/>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td colspan="7">
+                        <label>備註</label>
+                        <input type="textbox" id="demo"/>
+                    </td>
+                    </tr>
+                   <tr>
+                   <td colspan="7">
+                    
+                   <input type="button" id="sendset" value="送出" onclick="msg()" />
+                   </td>
+                   </tr>
+
+            </tfoot>
+        </table>
+    </body>
+</html>
