@@ -9,6 +9,37 @@
         <meta name="viewport" content="width=device-width; initial-scale=1.0" />
         <link rel="stylesheet" href="css/Core.css">
         <link rel="stylesheet" href="css/Calendar.css">
+
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+
+<script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBk3JLD5YHatCzMFuZg-0TlQzOY4Fvd2e4",
+    authDomain: "iotproject-1530502439529.firebaseapp.com",
+    databaseURL: "https://iotproject-1530502439529.firebaseio.com",
+    projectId: "iotproject-1530502439529",
+    storageBucket: "",
+    messagingSenderId: "283003228120"
+  };
+  firebase.initializeApp(config);
+
+   var provider = new firebase.auth.GoogleAuthProvider(); 
+        firebase.auth().signInWithPopup(provider).then(function(result) {      
+          var token         = result.credential.accessToken;      
+          var user          = result.user;      // 使用者資訊
+        }).catch(function(error) {
+          // 處理錯誤
+          var errorCode     = error.code;
+          var errorMessage  = error.message;     
+          var email         = error.email;      // 使用者所使用的 Email
+          var credential    = error.credential;      
+        });    
+</script>
+
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/Calendar.js"></script>
         <script type="text/javascript">
@@ -30,6 +61,7 @@
         </script>
     </head>
     <body>
+        <a id="forget" href="./index.html">登入/註冊</a>
         <table id="calendar">
             <caption></caption>
             <thead>
