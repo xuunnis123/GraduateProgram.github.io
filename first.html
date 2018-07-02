@@ -15,30 +15,7 @@
 
 <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
 
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBk3JLD5YHatCzMFuZg-0TlQzOY4Fvd2e4",
-    authDomain: "iotproject-1530502439529.firebaseapp.com",
-    databaseURL: "https://iotproject-1530502439529.firebaseio.com",
-    projectId: "iotproject-1530502439529",
-    storageBucket: "",
-    messagingSenderId: "283003228120"
-  };
-  firebase.initializeApp(config);
 
-   var provider = new firebase.auth.GoogleAuthProvider(); 
-        firebase.auth().signInWithPopup(provider).then(function(result) {      
-          var token         = result.credential.accessToken;      
-          var user          = result.user;      // 使用者資訊
-        }).catch(function(error) {
-          // 處理錯誤
-          var errorCode     = error.code;
-          var errorMessage  = error.message;     
-          var email         = error.email;      // 使用者所使用的 Email
-          var credential    = error.credential;      
-        });    
-</script>
 
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/Calendar.js"></script>
