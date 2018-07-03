@@ -2,106 +2,136 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        
+        <!-- Meta-Tags -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="keywords" content="">
+        <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //Meta-Tags -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
       <!--  <title>Date &amp; </title> Date &amp;Time Picker -->  
         <title>Activity Setting</title>
         <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+      
         <link rel="stylesheet" href="css/Core.css">
         <link rel="stylesheet" href="css/Calendar.css">
 
-<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+       
 
-<script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/fonts.css" rel="stylesheet" type="text/css" media="all" />
+
+<!-- Fullcalendar css -->
+<link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.css' type="text/css" />
+<!-- Bootstrap css -->
+<link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css" type="text/css" />
+<!-- Calendar css -->
+<link rel='stylesheet' href='css/calendar.css' type="text/css" />
+<!-- Fullcalendar js -->
+<script src="plugins/jquery-3.3.1.min.js" type="text/javascript"></script>
+<!-- <script src='fullcalendar/lib/jquery.min.js'></script> -->
+<script src='plugins/fullcalendar/lib/moment.min.js'></script>
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"
+    type="text/javascript"></script>
+<script src='plugins/fullcalendar/fullcalendar.js'></script>
+<!-- Bootstrap js -->
+<script src="plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- Calendar js -->
+<script src="js/calendar.js" type="text/javascript"></script>
+<!-- MiniMap js -->
+<script src="js/minimap.js" type="text/javascript"></script>
+<!-- Map js -->
+
+
+<script src="js/index.js" type="text/javascript"></script>
 
 
 
-        <script src="js/jquery-1.9.1.min.js"></script>
-        <script src="js/Calendar.js"></script>
-        <script type="text/javascript">
-            
-            function start(){
 
 
-            }
-            function msg(){
 
-                var activity=document.getElementById("activityName");
-                var settime=document.getElementById("timeset")
-                var locationsetting=document.getElementById("location")
-                var demoinput=document.getElementById("demo")
-                
-                    alert("已新增活動"+"\n"+"活動名稱："+activity.value+"\n"+"時間 "+settime.value+"\n"+"活動地點："+locationsetting.value+"\n"+"備註："+demoinput.value);
 
-            }
-        </script>
-        
     </head>
     <body>
-        <a id="forget" href="./index.html">登入/註冊</a>
-        <table id="calendar">
-            <caption></caption>
-            <thead>
-                <tr>
-                    <th id="lastMonth"></th>
-                    <th colspan="5" id="year"></th>
-                    <th id="nextMonth"></th>
-                </tr>
-                <tr id="week">
-                    <th>日</th>
-                    <th>一</th>
-                    <th>二</th>
-                    <th>三</th>
-                    <th>四</th>
-                    <th>五</th>
-                    <th>六</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-            <tfoot>
-                
-                <tr>
-                    <td colspan="7"><hr /></td>
-                </tr>
-                <tr>
-                    <td colspan="7">
-                    <label>行程</label>
-                    <input type="textbox" id="activityName" />
-                    </td>
-                </tr><tr>
-                    <td colspan="7">
-                        <label for="hour">時間</label>
-                        <input type="time" id="timeset" />
-                        <!--<input type="range" id="hourRange" min="0" max="23" value="0"/>-->
-                        <!--<input type="textbox" id="hourSet" min="0" max="23" value="0"/ >-->
-                    
-                       
-                       <!-- <input type="range" id="minuteRange" min="0" max="59" value="0"/> -->
-                        <!-- <input type="textbox" id="minuteSet" min="0" max="59" value="0"/ >-->
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="7">
-                        <label>地點</label>
-                        <input type="textbox" id="location"/>
-                    </td>
-                    
-                </tr>
-                <tr>
-                    <td colspan="7">
-                        <label>備註</label>
-                        <input type="textbox" id="demo"/>
-                    </td>
-                    </tr>
-                   <tr>
-                   <td colspan="7">
-                    
-                   <input type="button" id="sendset" value="送出" onclick="msg()" />
-                   </td>
-                   </tr>
+       
+        <div id="wrapper">
+    <div id="header-wrapper">
+        <div id="header" class="container">
+            <div id="logo">
+                <h1>行程地圖</h1>               
+            </div>          
+        </div>
+    
+        <div id="menu" class="container ">
+            
+        </div>  
+    </div>
+    <div id="page" >
+        <div class="tab-content">
+        
+            <div id="calendar-content" class=" tab-pane fade in active">
+                <div class="row">
+                    <div id="calendar-main" class="main-area col-xs-6">
+                        <fieldset>
+                            <legend>Calendar</legend>
+                            <div id="calendar"></div>
+                        </fieldset>
+                    </div>
+                    <div id="calendar-side" class="side-area col-xs-5">
+                        <fieldset>
+                            <legend>Schedule</legend>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xs-2">
+                                        <div class="input-group">
+                                            <input id="new-event-title" type="text" class="form-control"
+                                                placeholder="Title">
+                                        </div>
+                                        <div class="input-group">
+                                            <input id="new-event-description" type="text" class="form-control"
+                                                placeholder="Description">
+                                        </div>
+                                        <div class="input-group">
+                                            <input id="new-event-position" type="text" class="form-control"
+                                                placeholder="Position">
+                                        </div>
+                                        <button id="add-new-event" type="button" class="btn btn-primary btn-flat">Add</button>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div id="small-map" class=""></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
 
-            </tfoot>
-        </table>
+                        <fieldset>
+                            <legend>Event</legend>
+                            <div class='external-event' id='selected-event'>選擇事件...
+                            </div>
+                            <div class="color-btn-group">
+                                <button class="red btn color-btn"></button>
+                                <button class="green btn color-btn"></button>
+                                <button class="blue btn color-btn"></button>
+                            </div>
+                            <div>
+                                自訂顏色<input id="color-picker" type="color" value="#00c0ef">
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>  
+</div>
+<div id="footer">
+    
+</div>
     </body>
 </html>

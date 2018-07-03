@@ -1,122 +1,192 @@
-var current = 
-{
-	'year':  new Date().getFullYear(),
-	'month': new Date().getMonth() + 1,
-	'date':  new Date().getDate(),
-	'hour': new Date().getHours(),
-	'minute':new Date().getMinutes()
-};
+var tA;
+var tB;
+var eventsArray = [];
 
-var choose = 
-{
-	'year':  current.year,
-	'month': current.month,
-	'date':  current.date,
-	'hour':  current.hour,
-	'minute':current.minute
-};
+$(function(){
+    // 外部事件可拖拉
+    $('#selected-event').draggable({
+          zIndex: 1070,
+          revert: true, // will cause the event to go back to its
+          revertDuration: 0  //  original position after the drag
+    });
 
-$(function()
-{
-	drawCalendar(current);
-	$('#calendar tbody').on({click: function()
-	{		
-		$('#calendar tbody td.selected').removeClass('selected');
-		
-		choose.date = parseFloat($(this).text());
-		$(this).addClass('selected');
-		showList();
-	}}, "td");
-	
-	$('#lastMonth').click(function(){changeMonth(-1)});
-	$('#year').click(     function(){changeMonth(0)});	//back to current year
-	$('#nextMonth').click(function(){changeMonth(1)});
-	
-	$('#hourText').change( function() {setTimeRange (this, $(this).val());});
-	$('#hourRange').change(function() {setTimeNumber(this, $(this).val());});
-	
-	$('#minuteText').change( function() {setTimeRange (this, $(this).val());});
-	$('#minuteRange').change(function() {setTimeNumber(this, $(this).val());});
-});
+    // 取得所有 fc 上的 event
+    $('#get-events-btn').click(function(){
+        // 將 eventsArray 按照日期排序
+      console.log(eventsArray);
+    });
 
-function changeMonth(changeRange)
+    // 更改 selected event 顏色
+    $('.color-btn').click(function(){
+      var tmpColor = $(this).css('background-color');
+      $('#selected-event').css({'background-color': tmpColor, 'border-color': tmpColor});
+    })
+
+    // 自訂顏色
+    $('#color-picker').change(function(){
+      var tmpColor = $(this).val();
+      $('#selected-event').css({'background-color': tmpColor, 'border-color': tmpColor});
+      });
+
+    // 使用者輸入完後 按下添加
+    $('#add-new-event').click(addEvent);
+
+    // 使用者輸入完後 按下 Enter 可視為執行添加
+    $("#new-event-title,#new-event-description,#new-event-position").on('keyup', function (e) {
+        if (e.keyCode == 13) {
+            addEvent();
+        }
+    });
+
+    //綁定地址輸入框的keyup事件以即時重新定位
+    $("#new-event-position").bind("keyup",function(){ 
+      GetAddressMarker();
+    }); 
+})
+
+function initCalendar()
 {
-	choose.month = (changeRange == 0) ? current.month : (choose.month += changeRange);
-	
-	var lastOrNextYear = (choose.month > 12) - (choose.month < 1);	//Jump to Last Year(= -1) or Next Year(= 1) or not(= 0)
-	choose.year += lastOrNextYear;
-	choose.month -= 12 * lastOrNextYear;	//Last Year(0 + 12), Next Year(13 - 12)
-	
-	var currentYearAndMonth = (choose.year == current.year && choose.month == current.month)
-	choose.date = currentYearAndMonth ? current.date : 1;
-	
-	drawCalendar(choose);
+	$('#calendar').fullCalendar({
+		// 視圖的擺放
+        header: {
+          left: 'prev,next today',
+          center:  'title',
+          right: 'month,agendaWeek,agendaDay'
+        },
+        // 按鈕的文字
+        buttonText: {
+          today: '今天',
+          month: '月',
+          week: '周',
+          day: '天'
+        },
+        // 日期格式
+        timeFormat: 'hh:mm a',
+        // 行事曆的操作
+        editable: true,
+        droppable: true,
+        selectable: true,
+        selectHelper: true,
+        drop: function(date) {
+        	// console.log(date);
+			var event = {
+				title: $(this).text(),
+	            description: $(this).data('description'),
+	            position: $(this).data('position'),
+				latitude: $(this).data('latitude'),
+				longitude: $(this).data('longitude'),
+	            start: date,
+	            allDay: !date.hasTime(),
+	            backgroundColor: $(this).css('background-color'),
+	            borderColor: $(this).css('border-color')
+			}
+        	console.log(event);
+    		if (event.allDay != true)
+    		{
+  	    		event.end = moment(event.start);
+	    		event.end.hour(event.end.hour()+2);
+    		}
+    		else
+    		{
+  	    		event.end = moment(event.start);
+  	    		event.end.day(event.end.day()+1);
+    		}
+			$('#calendar').fullCalendar('renderEvent', event, true);
+        	setEventsArray();
+        },
+        select: function(start, end) {
+      	    var selectedObject = {
+  	      	    title: $('#selected-event').text(),
+	            description: $('#selected-event').data('description'),
+	            position: $('#selected-event').data('position'),
+				latitude: $('#selected-event').data('latitude'),
+				longitude: $('#selected-event').data('longitude'),
+  	      	    start: start.format('YYYY-MM-DD HH:mm:ss'),
+  	      	    end: end.format('YYYY-MM-DD HH:mm:ss'),
+  	      	    allDay: !start.hasTime() && !end.hasTime(),
+  	      	    backgroundColor: $('#selected-event').css('background-color'),
+  	      	    borderColor:  $('#selected-event').css('border-color')
+      	    }
+      	    $('#calendar').fullCalendar('renderEvent', selectedObject, true);
+      	    $('#calendar').fullCalendar('unselect');
+        	setEventsArray();
+      	},
+      	eventDrop: function(event, delta, revertFunc) {
+  	    	// 若沒有end且不是allday，預設為開始時間 +2 小時
+  	    	if (event.end == null)
+  	    	{
+  	    		if (event.allDay != true)
+  	    		{
+      	    		event.end = moment(event.start);
+      	    		event.end.hour(event.end.hour()+2);
+  	    		}
+  	    		else
+  	    		{
+      	    		event.end = moment(event.start);
+      	    		event.end.day(event.end.day()+1);
+  	    		}
+  	    	}
+  	        $('#calendar').fullCalendar('refetchEvents');
+        	setEventsArray();
+        }, // end eventDrop
+        eventClick: function(event) {
+        	console.log(event._id);
+        	if (confirm(event.title + '\n\n' + event.description + '\n\n' + event.position + '\n\n\n要刪除嗎？'))
+        		$('#calendar').fullCalendar('removeEvents', event._id);
+        },
+        eventResize: function(event){
+        	setEventsArray();
+        }
+    }); // end fullCalendar
 }
 
-function drawCalendar(dateJSON)
+// 將使用者輸入的資訊弄成 event 並顯示在 selected event
+function addEvent(){
+	console.log($('#new-event-title').val());
+	console.log($('#new-event-description').val());
+	console.log($('#new-event-position').val());
+
+	$('#selected-event').text($('#new-event-title').val());
+	$('#selected-event').data('description', $('#new-event-description').val());
+	$('#selected-event').data('position', $('#new-event-position').val());
+	$('#selected-event').data('latitude', LatLng.lat());
+	$('#selected-event').data('longitude', LatLng.lng());
+	$('#new-event-title,#new-event-description,#new-event-position').val('');
+}
+
+// 輸入兩個 time, 若 timeA 較大則回傳 true，否則回傳 false
+function timeCompare(timeA, timeB)
 {
-	$('#year').html(dateJSON.year + "年 " + dateJSON.month + "月");
-	var dateEnd = new Date(dateJSON.year, dateJSON.month, 0).getDate();	//Get the end of the choosed month(28, 29, 30 or 31)
-	var dayStart = new Date(dateJSON.year, (dateJSON.month - 1), 1).getDay(); //Get choosed month's first day
-	
-	var dateList = "<tr>";
-	if(dayStart > 0)
-		dateList += "<td id=\"ignoreData\" colspan=" + dayStart + "></td>";
-	
-	var dateCount = 1;
-	var SaturdayDate = 7 - dayStart;
-	while(dateCount <= dateEnd)
+	var arrayA = typeof(timeA) == 'string' ? timeA.split(/-|:|T| |\./) : timeA;
+	var arrayB = typeof(timeB) == 'string' ? timeB.split(/-|:|T| |\./) : timeB;
+	for (var i = 0; i < 6; i++)
 	{
-		dateList += "<td>" + (dateCount++) + "</td>";
-		if(dateCount > SaturdayDate)	//new week
-		{					        //Final week
-			SaturdayDate = ((dateCount + 6) > dateEnd) ? dateEnd : (dateCount + 6);
-			dateList += "</tr><tr>";
-		}
+		a = parseInt(arrayA[i] != undefined ? arrayA[i] : 0);
+		b = parseInt(arrayB[i] != undefined ? arrayB[i] : 0);
+		// console.log(a > b);
+		if (a > b)
+			return true;
+		else if (a < b)
+			return false;
 	}
-	
-	dateList += "</tr>";
-	$('#calendar tbody').html(dateList)
-						.find('td')
-						.filter(function() {return (parseFloat($(this).text()) == dateJSON.date);})
-						.addClass('selected');
-	showList();
+	return true;
 }
 
-function setTimeNumber(id, value) 
+//  2018-05-15 20:30:00.0 -> 2018 年 5 月 15 日 下午 8 點 30 分
+function toChineseTimeFormat(time, allday)
 {
-	$(id).prev().val(value);
-	setChoosedTime();
-	showList();
+	var array = time.split(/-|:|T| |\./);
+	var format = array[0] + ' 年 ' + ~~array[1] + ' 月 ' + ~~array[2] + ' 日 ';		// ~~可去掉開頭0
+	format += allday == true ? ' 整天' : (array[3] >= 12 ? '下午 ' + ~~(array[3]-12) : '上午 ' + ~~(array[3])) + ' 點' + (array[4] > 0 ? ' ' + ~~array[4] + ' 分' : ' 整');
+	return format;
 }
 
-function setTimeRange(id, value)
+function setEventsArray()
 {
-	var NotANumber = isNaN(parseFloat(value));
-	var higherThanMaxValue = (value > parseFloat($(id).attr("max")));
-	var lowerThanMinValue =  (value < parseFloat($(id).attr("min")));
-	if(NotANumber || higherThanMaxValue || lowerThanMinValue)
-	{
-		$(id).val($(id).next().val());
-		return;
-	}
-	
-	$(id).next().val(value);
-	setChoosedTime();
-	showList();
-}
-
-function timecheck(time)
-{
-if(time<10){
-	time="0"+time
-	
-}
-return time
-
-
-}
-function showList()
-	{$('#calendar caption').html($('#year').text() + choose.date + "日 " + timecheck(choose.hour) + ":" + timecheck(choose.minute));}
-
-function prependZero(vari) {return (vari < 10) ? ("0" + vari) : vari;}
+	eventsArray = $('#calendar').fullCalendar('clientEvents');
+	eventsArray = eventsArray.sort(function (a, b) {
+		tA = a;
+		tB = b;
+    	return timeCompare(a.start.format!=undefined ? a.start.format() : a.start._i, b.start.format!=undefined ? b.start.format() : b.start._i) ? 1 : -1;
+    });
+}	
