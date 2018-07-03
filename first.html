@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <!-- Meta-Tags -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="keywords" content="">
-        <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- //Meta-Tags -->
-      
 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>行程地圖</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 
@@ -39,20 +31,16 @@
 <!-- MiniMap js -->
 <script src="js/minimap.js" type="text/javascript"></script>
 <!-- Map js -->
-
+<script src="js/map.js" type="text/javascript"></script>
+<!-- Google Map -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7x-cyi0tE9xAgHPzQc5EuPT8IkNwZ-Jc&callback=initializeMiniMap" async defer></script>
 
 <script src="js/index.js" type="text/javascript"></script>
 
 
-
-
-
-
-
-    </head>
-    <body>
-       
-        <div id="wrapper">
+</head>
+<body>
+<div id="wrapper">
     <div id="header-wrapper">
         <div id="header" class="container">
             <div id="logo">
@@ -61,7 +49,11 @@
         </div>
     
         <div id="menu" class="container ">
-            
+            <ul class="nav navbar-nav">
+                <li class="active"><a data-toggle="tab" href="#calendar-content" id="calendar-tab">Calendar</a></li>
+                <li><a data-toggle="tab" href="#map-content" id="map-tab">Map</a></li>
+                <li><a href="00457011-00457118.pptx">PPT</a></li>               
+            </ul>
         </div>  
     </div>
     <div id="page" >
@@ -119,11 +111,33 @@
                 </div>
             </div>
             
+            <div id="map-content" class=" tab-pane fade ">
+                <div class="row">
+                    <div id="calendar-main" class="main-area col-xs-6">
+                        <fieldset>
+                            <legend>Map</legend>
+                            <div id="map"></div>
+                        </fieldset>                     
+                    </div>
+                    <div id="calendar-side" class="side-area col-xs-5">
+                        <fieldset>
+                            <legend>Schedule</legend>
+                            <div id="schedule-area">
+                            <table id="schedule" border="3">
+                                <tbody id="output">
+                                </tbody>
+                            </table>
+                        </div>
+                        </fieldset>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
     </div>  
 </div>
 <div id="footer">
     
 </div>
-    </body>
+</body>
 </html>
